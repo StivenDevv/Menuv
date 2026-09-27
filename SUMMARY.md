@@ -11,3 +11,6 @@
   * [Config](readme-1/config.md)
   * [Database](readme-1/database.md)
   * [Install](readme-1/install.md)
+* [ST PVP](readme-2/README.md)
+  * [Config](readme-2/config.md)
+  * [Database](readme-2/database.md)
