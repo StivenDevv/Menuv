@@ -7,3 +7,7 @@
     * [Qbcore & Qbx](readme/batabase/qbcore-and-qbx.md)
   * [Compatibility & Requirements](readme/compatibility-and-requirements/README.md)
     * [Exports](readme/compatibility-and-requirements/exports.md)
+* [Stiven\_vipweapons](readme-1/README.md)
+  * [Config](readme-1/config.md)
+  * [Database](readme-1/database.md)
+  * [Install](readme-1/install.md)
