@@ -4,5 +4,13 @@ description: Put this in your cfg.
 
 # cfg
 
-## setr inventory: weaponmismatch false
+## ST PVP
+
+### Installation
+
+Add this to your `server.cfg`:
+
+```cfg
+setr inventory:weaponmismatch false
+```
 
