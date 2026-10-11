@@ -1,2 +1,2 @@
-# Organization Creator
+# Notifications
 
