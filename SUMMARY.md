@@ -14,3 +14,4 @@
 * [ST PVP](readme-2/README.md)
   * [Config](readme-2/config.md)
   * [Database](readme-2/database.md)
+  * [cfg](readme-2/cfg.md)
