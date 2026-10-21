@@ -6,12 +6,12 @@ local config = {}
 -- =============================================================================
 -- 1. CORE DEPENDENCIES & FRAMEWORK INTEGRATION
 -- =============================================================================
--- Auto-detection is supported for framework & ambulance systems ('auto').
+-- Auto-detection is supported for all core systems ('auto').
 config.framework       = 'auto'        -- Options: 'auto' | 'esx' | 'qbcore' | 'qbox'
-config.target          = 'ox_target'   -- Options: 'ox_target' | 'qb-target' | 'qbox-target' | 'none'
-config.ambulanceSystem = 'auto'        -- Options: 'auto' | 'ak47_ambulancejob' | 'ak47_qb_ambulancejob' | 'qb-ambulancejob' | 'wasabi_ambulance' | 'wasabi_ambulance_v2' | 'ars_ambulancejob' | 'esx_ambulancejob' | 'qbx_ambulancejob' | 'none'
-config.inventory       = 'ox_inventory'-- Options: 'ox_inventory' | 'qb-inventory' | 'qs-inventory' | 'origen_inventory' | 'none'
-config.clothingSystem  = 'illenium-appearance' -- Options: 'esx_skin' | 'illenium-appearance' | 'fivem-appearance' | 'qb-clothing'
+config.target          = 'auto'        -- Options: 'auto' | 'ox_target' | 'qb-target' | 'qbox-target' | 'none'
+config.ambulanceSystem = 'auto'        -- Options: 'auto' | 'p_ambulancejob' | 'wasabi_ambulance' | 'wasabi_ambulance_v2' | 'ak47_ambulancejob' | 'ak47_qb_ambulancejob' | 'qb-ambulancejob' | 'ars_ambulancejob' | 'esx_ambulancejob' | 'qbx_ambulancejob' | 'none'
+config.inventory       = 'auto'        -- Options: 'auto' | 'ox_inventory' | 'ak47_inventory' | 'qb-inventory' | 'qs-inventory' | 'origen_inventory' | 'none'
+config.clothingSystem  = 'auto'        -- Options: 'auto' | 'ak47_clothing' | 'ak47_qb_clothing' | 'illenium-appearance' | 'fivem-appearance' | 'qb-clothing' | 'esx_skin'
 
 -- =============================================================================
 -- 2. GENERAL SETTINGS & BEHAVIOR
