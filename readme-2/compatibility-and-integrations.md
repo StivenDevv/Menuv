@@ -1,8 +1,4 @@
-# Copy of cfg
-
-Aquí tienes el documento estructurado y formateado especialmente para **GitBook Docs** (compatible con GitBook Markdown, callouts y tablas). Puedes copiar y pegar este contenido directamente en tu página de documentación:
-
-***
+# Compatibility & Integrations
 
 ````markdown
 # 🧩 Compatibility & Integrations
