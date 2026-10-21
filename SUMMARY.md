@@ -15,6 +15,7 @@
   * [Config](readme-2/config.md)
   * [Database](readme-2/database.md)
   * [cfg](readme-2/cfg.md)
+  * [Copy of cfg](readme-2/copy-of-cfg.md)
 * [Jail System & Community Service](readme-3/README.md)
   * [Config](readme-3/config.md)
   * [Database](readme-3/database.md)
