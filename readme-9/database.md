@@ -88,5 +88,4 @@ CREATE TABLE IF NOT EXISTS `stivendev_org_businesses` (
     `name` VARCHAR(50) PRIMARY KEY,
     `last_collected` BIGINT DEFAULT 0
 )
-
 ```

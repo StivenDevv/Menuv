@@ -6,11 +6,11 @@ Config = Config or {}
 -- ============================
 --        FRAMEWORK
 -- ============================
-Config.Framework = "qb" -- "esx" | "qb"
-Config.Locale    = "en"  -- "es" | "en" | "fr" | "de" | "pt"
+Config.Framework = "auto" -- "auto" | "qbx" | "qb" | "esx"
+Config.Locale    = "es"  -- "es" | "en" | "fr" | "de" | "pt"
 Config.Inventory = "ox"  -- "ox" | "qs-inventory" | "origen_inventory" | "origen_inventoryv2" | "codem-inventory" | "qb-inventory" | "esx_inventory"
 Config.DrawText = "ST-textui" -- "auto" | "ST-textui" | "jg-textui" | "ox_lib" | "qb-drawtext" | "okokTextUI" | "ps-ui" | "esx_textui"
-Config.VehicleKeys = "none" -- "none" | "qb-vehiclekeys" | "MrNewbVehicleKeys" | "jaksam-vehicles-keys" | "qs-vehiclekeys" | "mk_vehiclekeys" | "wasabi_carlock"
+Config.VehicleKeys = "qbx_vehiclekeys" -- "auto" | "qbx_vehiclekeys" | "qb-vehiclekeys" | "MrNewbVehicleKeys" | "jaksam-vehicles-keys" | "qs-vehiclekeys" | "mk_vehiclekeys" | "wasabi_carlock" | "none"
 Config.FuelSystem = "ox_fuel" -- "none" | "LegacyFuel" | "ox_fuel" | "ps-fuel" | "cdn-fuel" | "nd_fuel"
 
 -- ============================
@@ -27,7 +27,8 @@ Config.ColorVehiculos = true  -- Paint vehicles in the org's color
 Config.VehicleFix     = false -- Repair vehicles when spawned from garage
 
 
-Config.RangosAjustes = { -- Ranks shown in the tablet settings section
+Config.RangosAjustes = { -- Ranks allowed for boss actions & boss stash
+    "boss",
     "jefe",
     "subjefe",
     "encargado",
@@ -71,6 +72,8 @@ Config.BarrioBlip = {
 --        GPS & BLIPS
 -- ============================
 Config.UseGPS = true
+Config.ShowTerritoriesOnMap    = true  -- Mostrar territorios en el mapa grande (ESC) a miembros de una organización
+Config.ShowTerritoriesToAdmins = false -- Si es true, los admins también verán los territorios aunque NO estén en ninguna organización
 
 Config.BlipsOrgas = {
     blip_players    = 630,
@@ -138,16 +141,19 @@ Config.DarkChat          = true
 Config.FiltroPalabrotas  = true
 
 Config.PalabrasProhibidas = {
-    "polla", "cabron", "cabrón", "puta", "puto", "putas", "putos",
-    "gilipollas", "maricon", "maricón", "subnormal", "retrasado",
-    "idiota", "imbecil", "imbécil", "zorra", "perra", "perro",
-    "estupido", "estúpido", "mierda", "cagon", "cagón", "pendejo",
-    "culiao", "pelotudo", "baboso", "mamon", "mamón", "tarado",
-    "anormal", "mongolo", "chupapollas", "comeojete", "payaso",
-    "asco", "asqueroso", "asquerosa", "hijoputa", "hijo de puta",
-    "hdp", "malparido", "bastardo", "cornudo", "nazi", "racista",
-    "negro de mierda", "sidoso", "apestoso", "pajero", "lerdo",
-    "gordo de mierda"
+    -- Jerga y malas palabras estilo Dominicano (RD)
+    "mamaguevo", "mamaguebo", "mamagüevo", "mamagüebo", "mmg", "mmgv", "mamabicho",
+    "singao", "singada", "singar", "singa tu madre", "palomo", "palomazo",
+    "pájaro", "pajaro", "pajarazo", "cuero", "cuerazo", "chapiadora", "chapeadora",
+    "coño", "coñazo", "maldito", "maldita", "maldito diablo", "diablo", "diantre",
+    "chopo", "chopa", "rastrero", "rastrera", "guaremate", "guare", "ladrazo",
+    "tu maldita madre", "tmm", "hijo de tu maldita madre", "hijo de la gran puta",
+    "hijo de puta", "hijoputa", "hdp", "malparido", "malparida",
+    "pendejo", "pendeja", "cabron", "cabrón", "cabronazo", "puta", "puto", "putas",
+    "maricon", "maricón", "mariconazo", "mierda", "comemierda", "come mierda",
+    "tota", "totica", "ripio", "bicho", "chivato", "chivateador", "baboso", "tarado",
+    "idiota", "imbecil", "imbécil", "estupido", "estúpido", "asqueroso", "asquerosa",
+    "bastardo", "pajero", "pajarraco"
 }
 
 Config.RegexProhibidas = {}
@@ -173,7 +179,7 @@ Config.SecurityIMG = false
 -- ============================
 Config.VenderDrogas = {
     Enabled  = true,
-    Account  = "black_money", -- Tipo de dinero a recibir: "money" / "cash" (dinero limpio en efectivo), "black_money" / "black" (dinero negro/sucio), "bank" (banco)
+    Account  = "cash", -- Tipo de dinero a recibir: "money" / "cash" (dinero limpio en efectivo), "black_money" / "black" (dinero negro/sucio), "bank" (banco)
     Cooldown = 5,   -- Cooldown en segundos entre ventas
     VentasParaConquistar = 5, -- Número de ventas necesarias para conseguir el 100% del territorio
     AlertasPolicia = {
@@ -188,13 +194,13 @@ Config.VenderDrogas = {
     },
     Drugs = {
         -- Puedes especificar Account individual por cada droga si deseas (o dejará la de Config.VenderDrogas.Account)
-        { Items = "marijuana",      ItemsLabel = "Bolsa de marihuana",   PriceMin = 200, PriceMax = 500, MinAmount = 1, MaxAmount = 10, Account = "black_money" },
-        { Items = "cocaprocesada",  ItemsLabel = "Bolsa de Cocaina",     PriceMin = 200, PriceMax = 500, MinAmount = 1, MaxAmount = 10, Account = "black_money" },
-        { Items = "lsdprocesada",   ItemsLabel = "Extasis",              PriceMin = 200, PriceMax = 500, MinAmount = 1, MaxAmount = 10, Account = "black_money" },
-        { Items = "hongoprocesada", ItemsLabel = "Hongos",               PriceMin = 200, PriceMax = 500, MinAmount = 1, MaxAmount = 10, Account = "black_money" },
-        { Items = "crackprocesada", ItemsLabel = "Bolsa de Crack",       PriceMin = 200, PriceMax = 500, MinAmount = 1, MaxAmount = 10, Account = "black_money" },
-        { Items = "opioprocesada",  ItemsLabel = "Bolsa de Opio",        PriceMin = 200, PriceMax = 500, MinAmount = 1, MaxAmount = 10, Account = "black_money" },
-        { Items = "metaprocesada",  ItemsLabel = "Bolsa Metanfetamina",  PriceMin = 200, PriceMax = 500, MinAmount = 1, MaxAmount = 10, Account = "black_money" },
+        { Items = "marijuana",      ItemsLabel = "Bolsa de marihuana",   PriceMin = 200, PriceMax = 500, MinAmount = 1, MaxAmount = 10, Account = "cash" },
+        { Items = "cocaprocesada",  ItemsLabel = "Bolsa de Cocaina",     PriceMin = 200, PriceMax = 500, MinAmount = 1, MaxAmount = 10, Account = "cash" },
+        { Items = "lsdprocesada",   ItemsLabel = "Extasis",              PriceMin = 200, PriceMax = 500, MinAmount = 1, MaxAmount = 10, Account = "cash" },
+        { Items = "hongoprocesada", ItemsLabel = "Hongos",               PriceMin = 200, PriceMax = 500, MinAmount = 1, MaxAmount = 10, Account = "cash" },
+        { Items = "crackprocesada", ItemsLabel = "Bolsa de Crack",       PriceMin = 200, PriceMax = 500, MinAmount = 1, MaxAmount = 10, Account = "cash" },
+        { Items = "opioprocesada",  ItemsLabel = "Bolsa de Opio",        PriceMin = 200, PriceMax = 500, MinAmount = 1, MaxAmount = 10, Account = "cash" },
+        { Items = "metaprocesada",  ItemsLabel = "Bolsa Metanfetamina",  PriceMin = 200, PriceMax = 500, MinAmount = 1, MaxAmount = 10, Account = "cash" },
     }
 }
 
@@ -1265,5 +1271,172 @@ Config.Businesses = {
         hourlyIncome = 7,
         checkpoint = vec3(1865.21, 3749.04, 33.05)
     }
+}
+
+-- ============================
+--        LAVADO DE DINERO (OFFSHORE)
+-- ============================
+Config.MoneyLaundry = {
+    requireOrganization = true,
+    labPurchase = {
+        paymentMethods = { "black_money", "cash", "bank" },
+        points = {
+            {
+                id = "money_laundry_lab_1",
+                label = "Laboratorio de Lavado de Dinero",
+                stock = 5,
+                price = 0,
+                entry = vector4(1243.55, 1869.01, 77.98, 43.32),
+                exit = vector4(1138.15, -3199.02, -40.67, 0.0),
+                laptop = vector3(1126.85, -3194.18, -40.40),
+                washing = vector3(1121.28, -3194.55, -40.40),
+                useBlip = true,
+                blip = {
+                    sprite = 500,
+                    colour = 2,
+                    scale = 0.85,
+                    shortRange = true,
+                    label = "Laboratorio de Lavado",
+                },
+            },
+        },
+    },
+    offshore = {
+        title = "OFFSHORE FINANCIAL NETWORK",
+        minAmount = 500,
+        payoutAccount = "cash", -- "cash" or "bank"
+        jurisdictions = {
+            {
+                id = "route_ls_front",
+                label = "Los Santos Shell Front",
+                desc = "Local commercial fronts and business facades for clean cash.",
+                requiredLevel = 1,
+                durationSec = 180,
+                commissionPercent = 18,
+                amountTiers = {
+                    { min = 0, max = 50000, commissionPercent = 21, durationSec = 120 },
+                    { min = 50001, max = 250000, commissionPercent = 18, durationSec = 180 },
+                    { min = 250001, max = nil, commissionPercent = 15, durationSec = 240 },
+                },
+            },
+            {
+                id = "route_san_fierro",
+                label = "San Fierro Logistics",
+                desc = "Maritime shipping manifests and Pacific logistics network.",
+                requiredLevel = 2,
+                durationSec = 240,
+                commissionPercent = 17,
+                amountTiers = {
+                    { min = 0, max = 50000, commissionPercent = 20, durationSec = 180 },
+                    { min = 50001, max = 250000, commissionPercent = 17, durationSec = 240 },
+                    { min = 250001, max = nil, commissionPercent = 14, durationSec = 300 },
+                },
+            },
+            {
+                id = "route_las_venturas",
+                label = "Las Venturas High Roller Trust",
+                desc = "Casino chip conversions and private VIP vault washing.",
+                requiredLevel = 3,
+                durationSec = 300,
+                commissionPercent = 16,
+                amountTiers = {
+                    { min = 0, max = 50000, commissionPercent = 19, durationSec = 240 },
+                    { min = 50001, max = 250000, commissionPercent = 16, durationSec = 300 },
+                    { min = 250001, max = nil, commissionPercent = 13, durationSec = 360 },
+                },
+            },
+            {
+                id = "route_vice_city",
+                label = "Vice City Syndicate Fund",
+                desc = "Coastal cartel channel with discreet overseas routing.",
+                requiredLevel = 4,
+                durationSec = 360,
+                commissionPercent = 15,
+                amountTiers = {
+                    { min = 0, max = 50000, commissionPercent = 18, durationSec = 300 },
+                    { min = 50001, max = 250000, commissionPercent = 15, durationSec = 360 },
+                    { min = 250001, max = nil, commissionPercent = 12, durationSec = 420 },
+                },
+            },
+            {
+                id = "route_cayo_perico",
+                label = "Cayo Perico Black Channel",
+                desc = "Private island cartel holding with zero financial oversight.",
+                requiredLevel = 5,
+                durationSec = 420,
+                commissionPercent = 14,
+                amountTiers = {
+                    { min = 0, max = 50000, commissionPercent = 17, durationSec = 360 },
+                    { min = 50001, max = 250000, commissionPercent = 14, durationSec = 420 },
+                    { min = 250001, max = nil, commissionPercent = 11, durationSec = 480 },
+                },
+            },
+            {
+                id = "route_liberty_city",
+                label = "Liberty City Shadow Broker",
+                desc = "East coast mafia shell accounts and wall street wash.",
+                requiredLevel = 6,
+                durationSec = 480,
+                commissionPercent = 13,
+                amountTiers = {
+                    { min = 0, max = 50000, commissionPercent = 16, durationSec = 420 },
+                    { min = 50001, max = 250000, commissionPercent = 13, durationSec = 480 },
+                    { min = 250001, max = nil, commissionPercent = 10, durationSec = 540 },
+                },
+            },
+            {
+                id = "route_north_yankton",
+                label = "North Yankton Cold Vault",
+                desc = "Deep frozen bearer bonds and untraceable numbered vaults.",
+                requiredLevel = 7,
+                durationSec = 540,
+                commissionPercent = 12,
+                amountTiers = {
+                    { min = 0, max = 50000, commissionPercent = 15, durationSec = 480 },
+                    { min = 50001, max = 250000, commissionPercent = 12, durationSec = 540 },
+                    { min = 250001, max = nil, commissionPercent = 9, durationSec = 600 },
+                },
+            },
+            {
+                id = "route_maze_intl",
+                label = "Maze Capital International",
+                desc = "Institutional high-tier corporate restructuring funnel.",
+                requiredLevel = 8,
+                durationSec = 600,
+                commissionPercent = 11,
+                amountTiers = {
+                    { min = 0, max = 50000, commissionPercent = 14, durationSec = 540 },
+                    { min = 50001, max = 250000, commissionPercent = 11, durationSec = 600 },
+                    { min = 250001, max = nil, commissionPercent = 8, durationSec = 660 },
+                },
+            },
+            {
+                id = "route_lombank_trust",
+                label = "Lombank Sovereign Reserve",
+                desc = "Diplomatic pouch transfers and international sovereign banking.",
+                requiredLevel = 9,
+                durationSec = 660,
+                commissionPercent = 10,
+                amountTiers = {
+                    { min = 0, max = 50000, commissionPercent = 13, durationSec = 600 },
+                    { min = 50001, max = 250000, commissionPercent = 10, durationSec = 660 },
+                    { min = 250001, max = nil, commissionPercent = 7, durationSec = 720 },
+                },
+            },
+            {
+                id = "route_union_depository",
+                label = "Union Depository Shadow Ledger",
+                desc = "Top-tier federal reserve shadow accounts with minimal friction.",
+                requiredLevel = 10,
+                durationSec = 720,
+                commissionPercent = 9,
+                amountTiers = {
+                    { min = 0, max = 50000, commissionPercent = 12, durationSec = 660 },
+                    { min = 50001, max = 250000, commissionPercent = 9, durationSec = 720 },
+                    { min = 250001, max = nil, commissionPercent = 6, durationSec = 780 },
+                },
+            },
+        },
+    },
 }
 ```
