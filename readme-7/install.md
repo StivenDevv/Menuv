@@ -1,229 +1,176 @@
 # Install
 
-## 📢 Stiven Notifications
+````markdown
+# 🛠️ Installation & Configuration — ST_MenucacheoV2
 
-A modern, sleek, and high-performance notification system designed for FiveM servers with glassmorphism UI, animated timer bars, responsive typography, and sound effects.
+Welcome to the official documentation for **ST_MenucacheoV2**. This resource provides a complete player interaction and search system (via F6 Context Menu or Target) featuring **real-time per-player permission management** through a built-in Admin Tablet UI.
 
-{% hint style="info" %}
-**Resource Dependency**: Make sure `Stiven_Notifications` starts **before** or **alongside** your core framework in your `server.cfg`.
-{% endhint %}
+---
 
-***
+## 📋 1. Requirements & Compatibility
 
-### 📦 General Installation
+Before installing the resource, make sure your server has the required dependencies installed and up to date:
 
-1. Place the `Stiven_Notifications` folder into your server's `resources` directory (e.g., `resources/[core]/Stiven_Notifications`).
-2. Add the start command to your `server.cfg`:
+### Required Dependencies
+* [**ox_lib**](https://github.com/overextended/ox_lib) *(Required for context menus, notifications, and locales)*
+* [**oxmysql**](https://github.com/overextended/oxmysql) *(Required for automatic database permission storage)*
+
+### Automatic Compatibility (Bridge)
+The script automatically detects your server environment when options are set to `'auto'` in `config.lua`:
+
+| Category | Supported Systems |
+| :--- | :--- |
+| **Frameworks** | `ESX`, `QBCore`, `Qbox`, `Standalone` |
+| **Inventories** | `ox_inventory`, `qb-inventory`, `ps-inventory`, `qs-inventory`, `core_inventory`, `esx_inventoryhud` |
+| **Target Systems** *(Optional)* | `ox_target`, `qb-target` |
+| **Included Locales** | English (`en`), Spanish (`es`), French (`fr`), Portuguese (`pt`), German (`de`) |
+
+---
+
+## 🚀 2. Step-by-Step Installation
+
+### Step 1: Download and Place the Resource
+1. Download **`ST_MenucacheoV2`** from your Cfx.re Portal / Keymaster.
+2. Extract the folder into your server's `resources` directory (e.g., `resources/[scripts]/ST_MenucacheoV2`).
+
+> ⚠️ **Important:** Keep the resource folder name intact or make sure your ACE permission settings match `Config.AcePermission`.
+
+---
+
+### Step 2: Database Setup (Automatic)
+**You do not need to manually import any `.sql` file.**  
+When the resource starts for the first time, it will automatically create and verify the `st_f6_permissions` table in your database using `oxmysql`.
+
+---
+
+### Step 3: Configure `server.cfg`
+Add the ACE permissions for your administrators and ensure the resource starts **after** `oxmysql`, `ox_lib`, and your framework/inventory:
 
 ```cfg
-ensure Stiven_Notifications
+# 1. Core Dependencies
+ensure oxmysql
+ensure ox_lib
+
+# 2. ACE Permissions to access the Admin Tablet (/menucacheo)
+add_ace group.admin ST_MenucacheoV2 allow
+# Optional: Grant permission to a specific player via license
+# add_ace identifier.license:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx ST_MenucacheoV2 allow
+
+# 3. Start Resource
+ensure ST_MenucacheoV2
+````
+
+***
+
+### ⚙️ 2. Configuration (`config.lua`)
+
+The `config.lua` file is completely unlocked (`escrow_ignore`) so you can customize it to fit your server:
+
+```lua
+Config = {}
+
+-- ============================================================
+--  1. FRAMEWORK & INVENTORY
+-- ============================================================
+-- Framework Auto-Detection: 'auto' (ESX, QBCore, Qbox, Standalone), 'esx', 'qb', 'qbox', 'standalone'
+Config.Framework = 'auto'
+
+-- Inventory Auto-Detection: 'auto' (ox_inventory, qb-inventory, ps-inventory, qs-inventory, esx_inventoryhud), 'ox', 'qb', 'ps', 'qs', 'core'
+Config.Inventory = 'auto'
+
+-- ============================================================
+--  2. INTERACTION MODE (TARGET OR F6 MENU)
+-- ============================================================
+-- Set to true to use Target System (ox_target / qb-target) and disable F6 interaction menu
+-- Set to false to use the ox_lib F6 Context Menu
+Config.UseTarget = false
+
+-- Target System Auto-Detection: 'auto' (detects ox_target or qb-target), 'ox_target', 'qb-target'
+Config.Target = 'auto'
+
+-- ============================================================
+--  3. LOCALIZATION / LANGUAGE
+-- ============================================================
+-- Options: 'es' (Spanish), 'en' (English), 'fr' (French), 'pt' (Portuguese), 'de' (German)
+Config.Locale = 'en'
+
+-- ============================================================
+--  4. COMMANDS & KEYBINDS
+-- ============================================================
+Config.AdminCommand = 'menucacheo'  -- Command to open the Admin Tablet to manage player permissions
+Config.MenuKey = 'F6'               -- Default key to open interactions menu (only used when Config.UseTarget = false)
+
+-- ============================================================
+--  5. ALLOWED HOSTAGE WEAPONS
+-- ============================================================
+-- Weapons allowed for the Take Hostage interaction
+Config.HostageWeapons = {
+    `WEAPON_PISTOL`,
+    `WEAPON_PISTOL_MK2`,
+    `WEAPON_COMBATPISTOL`,
+    `WEAPON_APPISTOL`,
+    `WEAPON_PISTOL50`,
+    `WEAPON_SNSPISTOL`,
+    `WEAPON_SNSPISTOL_MK2`,
+    `WEAPON_HEAVYPISTOL`,
+    `WEAPON_VINTAGEPISTOL`,
+    `WEAPON_CERAMICPISTOL`,
+    `WEAPON_NAVYREVOLVER`,
+    `WEAPON_GADGETPISTOL`,
+    `WEAPON_DOUBLEACTION`,
+    `WEAPON_REVOLVER`,
+    `WEAPON_REVOLVER_MK2`,
+    `WEAPON_GLOCK17`,
+    `WEAPON_GLOCK18C`
+}
+
+-- ============================================================
+--  6. ACE PERMISSIONS (server.cfg)
+-- ============================================================
+Config.AcePermission = 'ST_MenucacheoV2'
 ```
 
 ***
 
-### ⚙️ Framework Integration
+### 🖥️ 3. In-Game Permission Management (Admin Tablet)
 
-{% tabs %}
-{% tab title="Qbox (QBX)" %}
-#### Qbox Framework Setup
+Access to the interaction menu is managed through a granular per-player permission whitelist.
 
-Qbox uses `qbx_core` for central notification dispatching. Follow these steps to route all server and client notifications through Stiven Notifications:
+1. Join the server with an administrator account (via framework admin group or `ST_MenucacheoV2` ACE permission).
+2. Run the **`/menucacheo`** command in chat.
+3. From the Admin Tablet UI, you can:
+   * **Grant access to an online player** by entering their **Server ID** and selecting which specific actions they are allowed to use.
+   * **Edit permissions in real time** by toggling individual actions on or off with a single click.
+   * **Revoke access** from any player stored in the database.
 
-**1. Edit `qbx_core` Client Functions**
+#### Configurable Actions per Player
 
-Open `resources/[core]/qbx_core/client/functions.lua` and locate the `Notify` function:
+Each authorized player can be granted or restricted from the following individual actions:
 
-```lua
----@param text table|string text of the notification
----@param notifyType? string informs default styling. Defaults to 'inform'
----@param duration? integer milliseconds notification will remain on screen. Defaults to 5000
----@param subTitle? string extra text under the title
----@param notifyPosition? string
----@param notifyStyle? table
----@param notifyIcon? string
----@param notifyIconColor? string
-function Notify(text, notifyType, duration, subTitle, notifyPosition, notifyStyle, notifyIcon, notifyIconColor)
-```
-
-Replace the function body with the following snippet:
-
-```lua
-function Notify(text, notifyType, duration, subTitle, notifyPosition, notifyStyle, notifyIcon, notifyIconColor)
-    local msg
-    if type(text) == 'table' then
-        if text.text and text.caption then
-            msg = text.text .. '<br>' .. text.caption
-        else
-            msg = text.text or text.caption or text.description or 'Placeholder'
-        end
-    elseif subTitle then
-        msg = text .. '<br>' .. subTitle
-    else
-        msg = tostring(text)
-    end
-
-    local length = duration or 5000
-
-    -- Automatic color formatting based on notification type
-    if notifyType == 'error' and not msg:find('~') then
-        msg = '~r~' .. msg .. '~s~'
-    elseif notifyType == 'success' and not msg:find('~') then
-        msg = '~g~' .. msg .. '~s~'
-    elseif (notifyType == 'primary' or notifyType == 'inform' or notifyType == 'info') and not msg:find('~') then
-        msg = '~b~' .. msg .. '~s~'
-    elseif notifyType == 'warning' and not msg:find('~') then
-        msg = '~y~' .. msg .. '~s~'
-    end
-
-    if GetResourceState('Stiven_Notifications') == 'started' then
-        exports['Stiven_Notifications']:Notification(msg, length)
-    else
-        TriggerEvent('Stiven_Notifications:Show', msg, length)
-    end
-end
-```
-
-{% hint style="success" %}
-Because QBX's `QBCore.Functions.Notify` and server-side `exports.qbx_core:Notify` both route through this client function, this single change handles **all** Qbox notifications server-wide.
-{% endhint %}
-{% endtab %}
-
-{% tab title="QBCore" %}
-#### QBCore Framework Setup
-
-**1. Edit `qb-core` Client Functions**
-
-Open `resources/[qb]/qb-core/client/functions.lua` and locate `QBCore.Functions.Notify` (typically around line 171):
-
-```lua
-function QBCore.Functions.Notify(text, texttype, length, icon)
-    local message = {
-        action = 'notify',
-        type = texttype or 'primary',
-        length = length or 5000,
-    }
-
-    if type(text) == 'table' then
-        message.text = text.text or 'Placeholder'
-        message.caption = text.caption or 'Placeholder'
-    else
-        message.text = text
-    end
-
-    if icon then
-        message.icon = icon
-    end
-
-    SendNUIMessage(message)
-end
-```
-
-Replace it with:
-
-```lua
-function QBCore.Functions.Notify(text, texttype, length)
-    if type(text) == "table" then
-        local ttext = text.text or 'Placeholder'
-        local caption = text.caption or 'Placeholder'
-        texttype = texttype or 'primary'
-        length = length or 5000
-        TriggerEvent('Stiven_Notifications:Show', ttext .. '<br>' .. caption, texttype, length)
-    else
-        texttype = texttype or 'primary'
-        length = length or 5000
-        TriggerEvent('Stiven_Notifications:Show', text, texttype, length)
-    end
-end
-```
-{% endtab %}
-
-{% tab title="ESX Legacy" %}
-#### ESX Legacy Setup
-
-**1. Edit `es_extended` Client Functions**
-
-Open `resources/[esx]/es_extended/client/functions.lua` and locate `ESX.ShowNotification` (typically around line 158):
-
-```lua
-function ESX.ShowNotification(message, notifyType, length, title, position)
-    return IsResourceFound('esx_notify') and exports['esx_notify']:Notify(notifyType or "info", length or 5000, message, title, position)
-end
-```
-
-Replace it with:
-
-```lua
-function ESX.ShowNotification(message, notifyType, length)
-    exports['Stiven_Notifications']:Notification(message, notifyType, length)
-end
-```
-{% endtab %}
-
-{% tab title="Standalone / Direct" %}
-#### Direct Exports & Events
-
-You can use Stiven Notifications directly in any third-party script without framework bindings:
-
-**Client-side Export**
-
-```lua
--- Standard usage: (message, type, duration)
-exports['Stiven_Notifications']:Notification('Vehicle successfully stored!', 'success', 5000)
-
--- Alternative usage: (message, duration)
-exports['Stiven_Notifications']:Notification('~g~Vehicle successfully stored!~s~', 5000)
-```
-
-**Client-side Event**
-
-```lua
-TriggerEvent('Stiven_Notifications:Show', 'Access denied to this area.', 'error', 4000)
-```
-
-**Server-side Notification**
-
-```lua
-TriggerClientEvent('Stiven_Notifications:Show', targetSource, 'You received $500 cash.', 'success', 5000)
-```
-
-**Help Notifications**
-
-```lua
--- Shows a floating instruction banner
-exports['Stiven_Notifications']:Help('Press ~g~E~s~ to interact with the NPC.')
-```
-{% endtab %}
-{% endtabs %}
+* 🔒 **Handcuff / Uncuff** (`handcuff`)
+* 🚶 **Escort / Drag** (`drag`)
+* 🚓 **Put in Vehicle** (`putInVeh`)
+* 🚪 **Take out of Vehicle** (`putOutVeh`)
+* 🔍 **Search / Steal Inventory** (`search`)
+* 🛍️ **Place / Remove Headbag** (`headbag`)
+* 🔫 **Take Hostage** (`hostage`)
 
 ***
 
-### 🎨 Color Code Formatting
+### ❓ 4. Frequently Asked Questions (FAQ)
 
-Stiven Notifications supports native GTA-style color tags directly within your message strings:
+#### Why do I get a "No permission" notification when pressing F6?
 
-| Code          | Output Color     | Example Usage                             |
-| ------------- | ---------------- | ----------------------------------------- |
-| `~r~`         | Red (Error)      | `~r~Error:~s~ Insufficient funds.`        |
-| `~g~`         | Green (Success)  | `~g~Success:~s~ Transaction completed.`   |
-| `~b~`         | Blue (Inform)    | `~b~Info:~s~ Server restart scheduled.`   |
-| `~y~`         | Yellow (Warning) | `~y~Warning:~s~ Engine temperature high.` |
-| `~o~`         | Gold             | `~o~VIP reward claimed.~s~`               |
-| `~p~`         | Purple           | `~p~Special event started.~s~`            |
-| `~c~`         | Grey             | `~c~Inactive~s~`                          |
-| `~m~`         | Dark Grey        | `~m~Hidden details~s~`                    |
-| `~u~`         | Black            | `~u~Classified~s~`                        |
-| `~s~` / `~w~` | White (Reset)    | Resets color to default text color        |
-| `~h~`         | **Bold**         | Makes text bold                           |
-| `~n~`         | New Line         | Inserts a `<br>` line break               |
+Only players authorized through the **`/menucacheo`** Admin Panel can open and use the interaction menu. Open `/menucacheo` as an admin, add your Server ID, and enable the desired permissions.
 
-***
+#### Why didn't my keybind change after editing `Config.MenuKey`?
 
-### 🛠️ Assets & Customization
+In FiveM, `RegisterKeyMapping` binds are cached per client after joining the server for the first time. Players can customize their keybind anytime in-game via:\
+**GTA V Settings ➔ Key Bindings ➔ FiveM**.
 
-| Asset                  | Path                | Description                                                             |
-| ---------------------- | ------------------- | ----------------------------------------------------------------------- |
-| **Logo**               | `html/logo.png`     | Notification brand/server icon (recommended: 512x512 or 1024x1024 PNG). |
-| **Styles**             | `html/style.css`    | Translucency, colors, fonts, margins, animations, and border-radii.     |
-| **Notification Sound** | `html/pop.ogg`      | Audio file triggered when a notification pops up.                       |
-| **Help Sound**         | `html/helpnoti.ogg` | Audio file triggered on help notifications.                             |
-| **Font**               | `html/font.ttf`     | Custom server typography font.                                          |
+#### How can I use my own notification script?
+
+At the bottom of [config.lua](file:///c:/Users/Administrator/Desktop/BASEE%20SERVER%20ST%20SCRIPTS/txData/ESXLegacy_9C3805.base/resources/\[scripts]/\[utils]/ST_MenucacheoV2/config.lua#L66-L88), you will find `Config.Notify` (Server-side) and `Config.NotifyCL` (Client-side). By default, they use `ox_lib:notify`, which you can replace with your custom notification export or event.
+
+```
+```

@@ -1,2 +1,2 @@
-# SAFE ZONE CREATOR
+# Notifications
 
