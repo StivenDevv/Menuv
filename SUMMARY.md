@@ -39,7 +39,7 @@
   * [Config](readme-8/config.md)
   * [Install](readme-8/install.md)
   * [SQL](readme-8/sql.md)
-* [Outfitbagv2](readme-9/README.md)
+* [Outfitbag v2](readme-9/README.md)
   * [Config](readme-9/config.md)
   * [Install](readme-9/install.md)
   * [SQL](readme-9/sql.md)
