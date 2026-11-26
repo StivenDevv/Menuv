@@ -1,2 +1,2 @@
-# Textui
+# Notifications
 

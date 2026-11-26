@@ -1,23 +1,18 @@
 # Config
 
 ```lua
-Cfg = { }
-Cfg.Debug = false --- Use if they have any errors and see the debugging code.
+-- Target, prompts, dispatch, notifications, progress bars, and black-money account mapping are configured in bridge/config.
+Config = Config or {}
+Config.command = 'drugscreator'
 
--- In game language config (since stiven_utils is removed)
-Cfg.Lang = 'en' -- Language: 'en' | 'es' | 'fr' | 'de' | 'it' | 'pt' | 'ru' | 'zh' | 'ja' | 'ko'
+-- Idioma general del script y del menú:
+-- 'es' (Español) | 'en' (English) | 'pt' (Português) | 'fr' (Français) | 'de' (Deutsch) | 'it' (Italiano) | 'ru' (Русский)
+Config.uiLanguage = 'en'
 
-
-Cfg.OpenManageCommand = 'vipweapons'
-Cfg.OpenKeyMenu = 'f10'
-
-Cfg.MenuColor = {}
-
----- Menu Position ----
-Cfg.MenuPosition = 'centerright'
--- Positions:
--- 'topleft' | 'topcenter' | 'topright' | 'centerleft' | 'center'
--- 'centerright' | 'bottomleft' | 'bottomcenter' | 'bottomright'
------------------------
+Config.blipsFont = ''
+Config.adminGroups = {
+    ['admin'] = true,
+    ['god'] = true
+}
 
 ```

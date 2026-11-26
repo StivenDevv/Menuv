@@ -1,92 +1,48 @@
 # Config
 
 ```lua
-Config = {}
-
--- ============================================================
---  1. FRAMEWORK & INVENTORY
--- ============================================================
--- Framework Auto-Detection: 'auto' (ESX, QBCore, Qbox, Standalone), 'esx', 'qb', 'qbox', 'standalone'
-Config.Framework = 'auto'
-
--- Inventory Auto-Detection: 'auto' (ox_inventory, qb-inventory, ps-inventory, qs-inventory, esx_inventoryhud), 'ox', 'qb', 'ps', 'qs', 'core'
-Config.Inventory = 'auto'
-
--- ============================================================
---  2. INTERACTION MODE (TARGET OR F6 MENU)
--- ============================================================
--- Set to true to use Target System (ox_target / qb-target) and disable F6 interaction menu
--- Set to false to use the ox_lib F6 Context Menu
-Config.UseTarget = false
-
--- Target System Auto-Detection: 'auto' (detects ox_target or qb-target), 'ox_target', 'qb-target'
-Config.Target = 'auto'
-
--- ============================================================
---  3. LOCALIZATION / LANGUAGE
--- ============================================================
--- Options: 'es' (Spanish), 'en' (English), 'fr' (French), 'pt' (Portuguese), 'de' (German)
-Config.Locale = 'es'
-
--- ============================================================
---  4. COMMANDS & KEYBINDS
--- ============================================================
-Config.AdminCommand = 'menucacheo'  -- Command to open the Admin Tablet to manage player permissions
-Config.MenuKey = 'F6'                -- Default key to open interactions menu (only used when Config.UseTarget = false)
-
--- ============================================================
---  5. ALLOWED HOSTAGE WEAPONS
--- ============================================================
--- Weapons allowed for the Take Hostage interaction
-Config.HostageWeapons = {
-    `WEAPON_PISTOL`,
-    `WEAPON_PISTOL_MK2`,
-    `WEAPON_COMBATPISTOL`,
-    `WEAPON_APPISTOL`,
-    `WEAPON_PISTOL50`,
-    `WEAPON_SNSPISTOL`,
-    `WEAPON_SNSPISTOL_MK2`,
-    `WEAPON_HEAVYPISTOL`,
-    `WEAPON_VINTAGEPISTOL`,
-    `WEAPON_CERAMICPISTOL`,
-    `WEAPON_NAVYREVOLVER`,
-    `WEAPON_GADGETPISTOL`,
-    `WEAPON_DOUBLEACTION`,
-    `WEAPON_REVOLVER`,
-    `WEAPON_REVOLVER_MK2`,
-    `WEAPON_GLOCK17`,
-    `WEAPON_GLOCK18C`
+Config = {
+    EnablePreview = true, -- Muestra tu personaje en la pantalla
+    SetScaleCommand = 'setscale', -- Comando para establecer la escala
+    ResetScaleCommand = 'resetscale', -- Comando para restablecer la escala
+    ScaleMenuCommand = 'scalemenu', -- Comando para abrir el menú de escala
+    Permissions = {
+        Enable = true, -- Cuando es falso, el menú es accesible para todos los jugadores.
+        Groups = {"owner"}, -- Permisos de comando QB/QBOX/ESX
+        Customs = {"license:xxx", "citizenid", "discord:xxx"}, -- Permisos personalizados
+        DiscordRoles = {"xxx"} -- IDs de roles de Discord
+    },
+    DefaultScale = 1.0, -- No se recomienda cambiar.
+    MinScale = 0.86, -- No se recomienda cambiar.
+    MaxScale = 1.3, -- No se recomienda cambiar.
+    DisableRagdoll = false, -- Si es verdadero, tu script de ragdoll no funcionará.
+    ScenarioPeds = false, -- Los NPCs reaccionan según el tamaño de tu personaje.
+    GiveScaleMenu = {
+        Enable = true, -- Si es verdadero, puedes abrir el menú ingresando el ID del jugador con el comando.
+        Command = "givescalemenu", -- Comando para abrir el menú
+        Description = "Abre el menú de escala al jugador", -- Descripción del comando para abrir el menú
+        Groups = {"admin","owner", "developer"} -- Permisos del comando para abrir el menú
+    },
+    HideWhen = {
+        MaxDistance = 20.0, -- La escala se aplica a jugadores que están cerca de esta distancia.
+        Invisible = true, -- Si el personaje no es visible, la escala se desactiva.
+        CollisionDisabled = true, -- Si la colisión del personaje está desactivada, la escala se desactiva.
+        Falling = true, -- Cuando el personaje está cayendo, la escala se desactiva.
+        Ragdoll = true, -- Cuando el personaje está en ragdoll, la escala se desactiva.
+        Climbing = true, -- Cuando el personaje está escalando, la escala se desactiva.
+        Jumping = false, -- Si el personaje está saltando, la escala se desactiva.
+        Swimming = true, -- Si el personaje está nadando, la escala se desactiva.
+        Attached = true, -- Si el personaje está adjunto a una entidad o jugador, la escala se desactiva.
+        OnVehicle = false, -- Si el personaje está en un vehículo, la escala se desactiva.
+        Alpha = true -- Si el valor alfa no es 255
+    },
+    UpdatePedAccordingToScale = {
+        RunSprintMultiplier = true -- La tasa de agotamiento de la respiración de tu personaje variará según el tamaño.
+    },
+    ScaledPlayerDamage = {
+        Enable = true, -- Si es verdadero, los jugadores con altura modificada reciben daño extra
+        HitsToKill = 2, -- Número de golpes con arma para matar a un jugador escalado (sin contar puños)
+        ExcludeFists = true -- Si es verdadero, el daño de puños no cuenta para los golpes de muerte
+    }
 }
-
--- ============================================================
---  6. ACE PERMISSIONS (server.cfg)
--- ============================================================
--- Grant admin access in your server.cfg by adding:
--- add_ace group.admin ST_MenucacheoV2 allow
--- add_ace identifier.license:xxxxxx ST_MenucacheoV2 allow
-Config.AcePermission = 'ST_MenucacheoV2'
-
--- ============================================================
---  7. NOTIFICATIONS
--- ============================================================
--- Server-side notification handler
-Config.Notify = function(source, type, message)
-    if source then
-        TriggerClientEvent('ox_lib:notify', source, {
-            title = 'Interactions',
-            description = message,
-            type = type,
-        })
-    end
-end
-
--- Client-side notification handler
-Config.NotifyCL = function(type, message, duration)
-    lib.notify({
-        title = 'Interactions',
-        description = message,
-        type = type,
-        duration = duration or 5000
-    })
-end
 ```

@@ -1,13 +1,20 @@
 # SQL
 
 ```sql
-CREATE TABLE IF NOT EXISTS `st_outfits` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `player` varchar(256) DEFAULT '0',
-  `tag` varchar(50) DEFAULT '0',
-  `data` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE IF NOT EXISTS `st_f6_permissions` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `identifier` VARCHAR(255) NOT NULL,
+    `name` VARCHAR(255) NOT NULL,
+    `permissions` LONGTEXT DEFAULT NULL,
+    `added_by` VARCHAR(255) NOT NULL,
+    `date_added` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY `unique_identifier` (`identifier`)
+);
+
+CREATE TABLE IF NOT EXISTS `st_admins` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `identifier` VARCHAR(255) NOT NULL,
+    `name` VARCHAR(255) NOT NULL
+);
 ```
 

@@ -4,13 +4,19 @@ description: Put this in your cfg.
 
 # cfg
 
-Jail System & Community Service
+ST PVP
 
-### Installation
+#### Installation
 
 Add this to your `server.cfg`:
 
 ```cfg
-add_ace group.admin st_comunitarias.admin allow       # Comunitarias
-```
+# Prevent inventory from removing match weapons
+setr inventory:weaponmismatch false
 
+# Resource start
+ensure ST_PVP
+
+# Admin permissions (Optional - for /pvpadmin)
+add_ace group.admin st_pvp.admin allow
+```

@@ -4,13 +4,13 @@ description: Put this in your cfg.
 
 # cfg
 
-Report System
+Jail System & Community Service
 
 ### Installation
 
 Add this to your `server.cfg`:
 
 ```cfg
-add_ace group.admin ST_Reports allow                  # Reports
+add_ace group.admin st_comunitarias.admin allow       # Comunitarias
 ```
 

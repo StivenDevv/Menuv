@@ -1,365 +1,92 @@
 # Config
 
 ```lua
-
 Config = {}
 
-Config.debug = false
-Config.locale = 'en' -- 'es' or 'en'
+-- ============================================================
+--  1. FRAMEWORK & INVENTORY
+-- ============================================================
+-- Framework Auto-Detection: 'auto' (ESX, QBCore, Qbox, Standalone), 'esx', 'qb', 'qbox', 'standalone'
+Config.Framework = 'auto'
 
-----------------------------------
---- FRAMEWORK SETTINGS
-----------------------------------
---- If using a standalone solution, keep both frameworks disabled.
+-- Inventory Auto-Detection: 'auto' (ox_inventory, qb-inventory, ps-inventory, qs-inventory, esx_inventoryhud), 'ox', 'qb', 'ps', 'qs', 'core'
+Config.Inventory = 'auto'
 
-Config.esxSettings = {
-    enabled = false,
-    -- Whether or not to use the new ESX export method
-    useNewESXExport = false
+-- ============================================================
+--  2. INTERACTION MODE (TARGET OR F6 MENU)
+-- ============================================================
+-- Set to true to use Target System (ox_target / qb-target) and disable F6 interaction menu
+-- Set to false to use the ox_lib F6 Context Menu
+Config.UseTarget = false
+
+-- Target System Auto-Detection: 'auto' (detects ox_target or qb-target), 'ox_target', 'qb-target'
+Config.Target = 'auto'
+
+-- ============================================================
+--  3. LOCALIZATION / LANGUAGE
+-- ============================================================
+-- Options: 'es' (Spanish), 'en' (English), 'fr' (French), 'pt' (Portuguese), 'de' (German)
+Config.Locale = 'es'
+
+-- ============================================================
+--  4. COMMANDS & KEYBINDS
+-- ============================================================
+Config.AdminCommand = 'menucacheo'  -- Command to open the Admin Tablet to manage player permissions
+Config.MenuKey = 'F6'                -- Default key to open interactions menu (only used when Config.UseTarget = false)
+
+-- ============================================================
+--  5. ALLOWED HOSTAGE WEAPONS
+-- ============================================================
+-- Weapons allowed for the Take Hostage interaction
+Config.HostageWeapons = {
+    `WEAPON_PISTOL`,
+    `WEAPON_PISTOL_MK2`,
+    `WEAPON_COMBATPISTOL`,
+    `WEAPON_APPISTOL`,
+    `WEAPON_PISTOL50`,
+    `WEAPON_SNSPISTOL`,
+    `WEAPON_SNSPISTOL_MK2`,
+    `WEAPON_HEAVYPISTOL`,
+    `WEAPON_VINTAGEPISTOL`,
+    `WEAPON_CERAMICPISTOL`,
+    `WEAPON_NAVYREVOLVER`,
+    `WEAPON_GADGETPISTOL`,
+    `WEAPON_DOUBLEACTION`,
+    `WEAPON_REVOLVER`,
+    `WEAPON_REVOLVER_MK2`,
+    `WEAPON_GLOCK17`,
+    `WEAPON_GLOCK18C`
 }
 
-Config.qbSettings = {
-    enabled = true,
-}
+-- ============================================================
+--  6. ACE PERMISSIONS (server.cfg)
+-- ============================================================
+-- Grant admin access in your server.cfg by adding:
+-- add_ace group.admin ST_MenucacheoV2 allow
+-- add_ace identifier.license:xxxxxx ST_MenucacheoV2 allow
+Config.AcePermission = 'ST_MenucacheoV2'
 
-----------------------------------
---- COMMAND / STANDALONE USAGE
-----------------------------------
--- Outfitbag command settings
-Config.command = {
-    enabled = false,
-    command = 'outfitbag',
-    shortCommand = 'ob'
-}
+-- ============================================================
+--  7. NOTIFICATIONS
+-- ============================================================
+-- Server-side notification handler
+Config.Notify = function(source, type, message)
+    if source then
+        TriggerClientEvent('ox_lib:notify', source, {
+            title = 'Interactions',
+            description = message,
+            type = type,
+        })
+    end
+end
 
-----------------------------------
---- SYSTEMS
-----------------------------------
-Config.sql = {
-    driver = 'oxmysql', -- oxmysql or ghmattimysql or mysql
-    -- If you're using an older version of oxmysql set this to false
-    newOxMysql = true,
-}
-
-Config.target = {
-    enabled = true,
-    system = 'ox_target' -- 'qtarget' or 'qb-target' or 'ox_target' (Other systems might work as well)
-}
-
-
-----------------------------------
---- THEMING
-----------------------------------
--- Here you can set the accent colors of the UI
-Config.theme = {
-    colors = {
-        -- Used for preview accents and hover on buttons (Monochrome White/Gray)
-        primary = {
-            r = 255,
-            g = 255,
-            b = 255,
-        },
-        -- Used for secondary hover/accent color (Light Gray)
-        secondary = {
-            r = 180,
-            g = 180,
-            b = 180,
-        },
-    },
-}
-
-----------------------------------
---- ITEMS
-----------------------------------
--- Name of the item which will be usable as the bag
-Config.bagItem = 'st_outfitbag'
-
-
--- If you want to have different kind of bags you can add them here (These will have separate inventories)
--- Make sure to add the item to your database / file
-Config.additionalItems = {
-}
-
---[[ EXAMPLE
-Config.additionalItems = {
-    'st_outfitbag_2',
-}
-]]--
-
-----------------------------------
---- GENERAL
-----------------------------------
-
--- Maxmimum amount of outfits that people can save per bag
-Config.maxOutfits = 10
-
--- Whether or not to allow players to share their outfits
-Config.allowBagSharing = true
-
--- The 3d object of the bag
-Config.bagObject = 'reh_prop_reh_bag_outfit_01a'
-
--- Whether or not to delete the previous bag if player is placing a new one on the ground
-Config.onlyAllowOneBagOnGround = true
-
--- Automatic bag despawning system
-Config.bagDespawning = {
-    enabled = true,
-    time = 15, -- time in minutes
-}
-
--- Whether to save outfits using an external system (this will make players keep their outfit upon relog when using a specialized outfit resource)
-Config.clothingSystemSaving = {
-    enabled = true,
-    system = 'illenium-appearance',
-    -- Available systems:
-    -- illenium-appearance
-    -- fivem-appearance
-    -- qb-clothing
-    -- codem-appearance
-    -- To add your custom system; you can do this in the client/editable/editable.lua file within the OnPlayerApplyOutfit function
-}
-
-----------------------------------
---- ANIMATIONS
-----------------------------------
--- The idle animation when using or picking up a bag
-Config.bagAnimation = {
-    enabled = true,
-    dict = 'amb@medic@standing@tendtodead@idle_a',
-    anim = 'idle_a',
-}
-
--- Animations played when changing outfits per body part
-Config.outfitChangeAnimation = {
-    head = {
-        duration = 2000,
-        dict = 'mp_cp_stolen_tut',
-        anim = 'b_think',
-    },
-    top = {
-        duration = 4000,
-        dict = 'mp_safehouseshower@male@',
-        anim = 'male_shower_towel_dry_to_get_dressed',
-    },
-    bottom = {
-        duration = 4000,
-        dict = 'clothingshoes',
-        anim = 'try_shoes_positive_d',
-    },
-}
-
--- Outfit preview settings
-Config.preview = {
-    enabled = true,
-    -- 'cinematic': High-quality studio camera framing your character, 3-point studio lighting, ped rotation, no deformed dwarf or overlapping HUD.
-    -- 'classic': Old legacy miniature clone ped floating in a box.
-    mode = 'cinematic',
-    lighting = true,         -- Soft 3-point studio lighting so clothes look great even at night
-    allowRotation = true,    -- Allow rotating character with A/D, Arrow keys, or mouse drag
-    hideHud = true,          -- Automatically hide minimap and HUD while menu is open
-    animations = {
-        {'clothingshirt', 'check_out_c'},
-        {'clothingshirt', 'try_shirt_positive_a'},
-        {'random@getawaydriver', 'gesture_nod_yes_soft'},
-        {'clothingshirt', 'try_shirt_neutral_a'},
-        {'clothingshoes', 'try_shoes_positive_d'},
-        {'clothingshirt', 'try_shirt_neutral_b'},
-    },
-}
-
-----------------------------------
---- KEYBINDS
-----------------------------------
--- Keybinds. Only when not using targeting
-Config.keybinds = {
-    pickup = {
-        label = 'G',
-        input = 58,
-    },
-    open = {
-        label = 'E',
-        input = 38,
-    },
-}
-
-----------------------------------
---- FIXED BAGS
-----------------------------------
--- Here you can easily add new outfits for static bags and bags using exports.
--- When debug mode is enabled you may use the /outfit-output [name] - command. This will output a file
--- into the outfit-outputs directory. You can open the newly created text file. Copy and paste the outfit here into the
--- bag you wish to add the outfit to.
-Config.fixedBags = {
-    ['gang'] = {
-        bags = {
-            locations = {
-                vector4(87.44, -1963.54, 20.74, 50.0),
-            },
-        },
-        outfits = {
-            {
-                name = "Example",
-                model = 1885233650,
-                drawable = {
-                    tops = { drawable = 171, texture = 1, palette = 0 },
-                    bag = { drawable = 45, texture = 0, palette = 0 },
-                    undershirt = { drawable = 15, texture = 0, palette = 0 },
-                    torso = { drawable = 4, texture = 0, palette = 0 },
-                    chest = { drawable = 0, texture = 0, palette = 0 },
-                    accessory = { drawable = 0, texture = 0, palette = 0 },
-                    decals = { drawable = 0, texture = 0, palette = 0 },
-                    mask = { drawable = 54, texture = 0, palette = 0 },
-                    legs = { drawable = 31, texture = 0, palette = 0 },
-                    feet = { drawable = 25, texture = 0, palette = 0 },
-                },
-                props = {
-                    helmet = { prop = -1, texture = -1 },
-                    glasses = { prop = 0, texture = 0 },
-                    ear = { prop = 0, texture = 0 },
-                },
-            },
-        }
-    },
-    ['police'] = {
-        bags = {
-            jobs = {
-                'police',
-                'lspd',
-                'bcso',
-            },
-            locations = {
-                vector4(0.98, 0.28, 0.68, 0.0),
-            },
-        },
-        outfits = {
-            {
-                name = "Male Officer",
-                model = 1885233650,
-                drawable = {
-                    torso = { drawable = 19, texture = 0, palette = 0 },
-                    feet = { drawable = 51, texture = 0, palette = 0 },
-                    accessory = { drawable = 0, texture = 0, palette = 0 },
-                    chest = { drawable = 0, texture = 0, palette = 0 },
-                    decals = { drawable = 0, texture = 0, palette = 2 },
-                    bag = { drawable = 0, texture = 0, palette = 0 },
-                    tops = { drawable = 55, texture = 0, palette = 0 },
-                    undershirt = { drawable = 58, texture = 0, palette = 0 },
-                    legs = { drawable = 24, texture = 0, palette = 0 },
-                    mask = { drawable = 0, texture = 0, palette = 0 },
-                },
-                props = {
-                    ear = { prop = 0, texture = 0 },
-                    glasses = { prop = -1, texture = -1 },
-                    helmet = { prop = -1, texture = -1 },
-                },
-            },
-            {
-                name = "Male Bulletproof",
-                model = 1885233650,
-                drawable = {
-                    mask = { drawable = 0, texture = 0, palette = 0 },
-                    chest = { drawable = 11, texture = 1, palette = 0 },
-                    bag = { drawable = 0, texture = 0, palette = 0 },
-                    undershirt = { drawable = 58, texture = 0, palette = 0 },
-                    tops = { drawable = 55, texture = 0, palette = 0 },
-                    torso = { drawable = 41, texture = 0, palette = 0 },
-                    accessory = { drawable = 0, texture = 0, palette = 0 },
-                    feet = { drawable = 25, texture = 0, palette = 0 },
-                    legs = { drawable = 25, texture = 0, palette = 0 },
-                    decals = { drawable = 0, texture = 0, palette = 0 },
-                },
-                props = {
-                    ear = { prop = 2, texture = 0 },
-                    helmet = { prop = -1, texture = -1 },
-                    glasses = { prop = 0, texture = 0 },
-                },
-            },
-            {
-                name = "Male Trooper",
-                model = 1885233650,
-                drawable = {
-                    torso = { drawable = 20, texture = 0, palette = 0 },
-                    feet = { drawable = 51, texture = 0, palette = 0 },
-                    accessory = { drawable = 0, texture = 0, palette = 0 },
-                    chest = { drawable = 0, texture = 0, palette = 0 },
-                    decals = { drawable = 0, texture = 0, palette = 2 },
-                    bag = { drawable = 0, texture = 0, palette = 0 },
-                    tops = { drawable = 317, texture = 3, palette = 0 },
-                    undershirt = { drawable = 58, texture = 0, palette = 0 },
-                    legs = { drawable = 24, texture = 0, palette = 0 },
-                    mask = { drawable = 0, texture = 0, palette = 0 },
-                },
-                props = {
-                    ear = { prop = 0, texture = 0 },
-                    glasses = { prop = -1, texture = -1 },
-                    helmet = { prop = 58, texture = 0 },
-                },
-            },
-            {
-                name = "Female officer",
-                model = -1667301416,
-                drawable = {
-                    chest = { drawable = 0, texture = 0, palette = 0 },
-                    decals = { drawable = 0, texture = 0, palette = 0 },
-                    torso = { drawable = 44, texture = 0, palette = 0 },
-                    bag = { drawable = 0, texture = 0, palette = 0 },
-                    mask = { drawable = 0, texture = 0, palette = 0 },
-                    undershirt = { drawable = 35, texture = 0, palette = 0 },
-                    legs = { drawable = 34, texture = 0, palette = 0 },
-                    tops = { drawable = 48, texture = 0, palette = 0 },
-                    accessory = { drawable = 0, texture = 0, palette = 0 },
-                    feet = { drawable = 27, texture = 0, palette = 0 },
-                },
-                props = {
-                    ear = { prop = 2, texture = 0 },
-                    glasses = { prop = -1, texture = -1 },
-                    helmet = { prop = -1, texture = -1 },
-                },
-            },
-            {
-                name = "Female Bulletproof",
-                model = -1667301416,
-                drawable = {
-                    feet = { drawable = 27, texture = 0, palette = 0 },
-                    torso = { drawable = 44, texture = 0, palette = 0 },
-                    legs = { drawable = 34, texture = 0, palette = 0 },
-                    mask = { drawable = 0, texture = 0, palette = 0 },
-                    tops = { drawable = 48, texture = 0, palette = 0 },
-                    accessory = { drawable = 0, texture = 0, palette = 0 },
-                    chest = { drawable = 13, texture = 1, palette = 0 },
-                    decals = { drawable = 0, texture = 0, palette = 0 },
-                    bag = { drawable = 0, texture = 0, palette = 0 },
-                    undershirt = { drawable = 35, texture = 0, palette = 0 },
-                },
-                props = {
-                    helmet = { prop = -1, texture = -1 },
-                    ear = { prop = 2, texture = 0 },
-                    glasses = { prop = -1, texture = -1 },
-                },
-            },
-            {
-                name = "Female Trooper",
-                model = -1667301416,
-                drawable = {
-                    chest = { drawable = 34, texture = 0, palette = 0 },
-                    decals = { drawable = 0, texture = 0, palette = 0 },
-                    torso = { drawable = 31, texture = 0, palette = 0 },
-                    bag = { drawable = 0, texture = 0, palette = 0 },
-                    mask = { drawable = 0, texture = 0, palette = 0 },
-                    undershirt = { drawable = 35, texture = 0, palette = 0 },
-                    legs = { drawable = 133, texture = 0, palette = 0 },
-                    tops = { drawable = 327, texture = 3, palette = 0 },
-                    accessory = { drawable = 0, texture = 0, palette = 0 },
-                    feet = { drawable = 52, texture = 0, palette = 0 },
-                },
-                props = {
-                    ear = { prop = 2, texture = 0 },
-                    glasses = { prop = -1, texture = -1 },
-                    helmet = { prop = -1, texture = -1 },
-                },
-            },
-        }
-    }
-}
+-- Client-side notification handler
+Config.NotifyCL = function(type, message, duration)
+    lib.notify({
+        title = 'Interactions',
+        description = message,
+        type = type,
+        duration = duration or 5000
+    })
+end
 ```

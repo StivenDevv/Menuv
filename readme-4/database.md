@@ -1,49 +1,46 @@
 # Database
 
 ```sql
-CREATE TABLE IF NOT EXISTS `reports`(
-    `admin_identifier` varchar(255) NOT NULL,
-    `responded_reports` varchar(255) NOT NULL DEFAULT 1,
-    UNIQUE KEY abc_ndx (admin_identifier)
-);
+CREATE TABLE IF NOT EXISTS `stiven_arenas` (
+  DROP TABLE IF EXISTS `communityservice_items`;
+DROP TABLE IF EXISTS `communityservice`;
+DROP TABLE IF EXISTS `sanctions_history`;
 
-CREATE TABLE IF NOT EXISTS `active_reports`(
-    `id` INT AUTO_INCREMENT PRIMARY KEY,
-    `report_id` INT NOT NULL,
-    `category` VARCHAR(50) NOT NULL,
-    `title` VARCHAR(255) NOT NULL,
-    `description` TEXT NOT NULL,
-    `player_source` INT NOT NULL,
-    `player_name` VARCHAR(255) NOT NULL,
-    `player_identifier` VARCHAR(255) NOT NULL,
-    `admin_name` VARCHAR(255) DEFAULT NULL,
-    `admin_source` INT DEFAULT NULL,
-    `admin_identifier` VARCHAR(255) DEFAULT NULL,
-    `messages` LONGTEXT DEFAULT NULL,
-    `is_being_helped` TINYINT(1) DEFAULT 0,
-    `is_admin_assisting` TINYINT(1) DEFAULT 0,
-    `bring_start_pos` VARCHAR(255) DEFAULT NULL,
-    `admin_start_pos` VARCHAR(255) DEFAULT NULL,
-    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    INDEX `idx_player_source` (`player_source`),
-    INDEX `idx_report_id` (`report_id`)
-);
+CREATE TABLE `communityservice` (
+  `identifier`        varchar(100) NOT NULL,
+  `type`              enum('service','jail','animal') NOT NULL DEFAULT 'service',
+  `actions_remaining` int(10)      NOT NULL DEFAULT 0,
+  `reason`            varchar(255) DEFAULT 'Comportamiento inapropiado',
+  `assigned_by`       varchar(100) DEFAULT 'Sistema',
+  `saved_x`           float        DEFAULT NULL,
+  `saved_y`           float        DEFAULT NULL,
+  `saved_z`           float        DEFAULT NULL,
+  `saved_heading`     float        DEFAULT NULL,
+  `created_at`        timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`identifier`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-CREATE TABLE IF NOT EXISTS `concluded_reports`(
-    `id` INT AUTO_INCREMENT PRIMARY KEY,
-    `report_id` INT NOT NULL,
-    `category` VARCHAR(50) NOT NULL,
-    `title` VARCHAR(255) NOT NULL,
-    `description` TEXT NOT NULL,
-    `player_name` VARCHAR(255) NOT NULL,
-    `player_identifier` VARCHAR(255) DEFAULT NULL,
-    `player_discord` VARCHAR(255) DEFAULT NULL,
-    `admin_name` VARCHAR(255) DEFAULT NULL,
-    `admin_identifier` VARCHAR(255) DEFAULT NULL,
-    `messages` LONGTEXT DEFAULT NULL,
-    `concluded_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    INDEX `idx_concluded_report_id` (`report_id`),
-    INDEX `idx_concluded_at` (`concluded_at`)
-);
+CREATE TABLE `sanctions_history` (
+  `id`          int(11)      NOT NULL AUTO_INCREMENT,
+  `identifier`  varchar(100) NOT NULL,
+  `player_name` varchar(100) NOT NULL DEFAULT '',
+  `type`        enum('service','jail','animal') NOT NULL DEFAULT 'service',
+  `duration`    int(10)      NOT NULL DEFAULT 0,
+  `reason`      varchar(255) DEFAULT 'Sin razón',
+  `assigned_by` varchar(100) DEFAULT 'Sistema',
+  `created_at`  timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_identifier` (`identifier`),
+  KEY `idx_type`       (`type`),
+  KEY `idx_player_name`(`player_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `communityservice_items` (
+  `id`         int(11)      NOT NULL AUTO_INCREMENT,
+  `identifier` varchar(100) NOT NULL,
+  `items`      longtext     NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `identifier` (`identifier`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 ```

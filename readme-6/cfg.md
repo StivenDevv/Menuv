@@ -4,13 +4,13 @@ description: Put this in your cfg.
 
 # cfg
 
-PED SCALE
+Character Kill
 
 ### Installation
 
 Add this to your `server.cfg`:
 
 ```cfg
- add_ace group.admin ST_pedscale.admin allow           # Ped Scale
+ add_ace group.admin command.ck allow
 ```
 
